@@ -1,0 +1,6 @@
+node_modules
+.settings
+target
+.project
+.classpath
+.serverless
