@@ -1,0 +1,10 @@
+{
+    "variables": {
+        "bookHotelFailure":   {"value":"false","type":"boolean"},
+        "bookCarFailure":     {"value":"true","type":"boolean"},
+        "bookFlightFailure":  {"value":"false","type":"boolean"},
+        "cancelHotelFailure": {"value":"true","type":"boolean"},
+        "cancelCarFailure":   {"value":"false","type":"boolean"},
+        "cancelFlightFailure":{"value":"false","type":"boolean"}
+    }
+}

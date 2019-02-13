@@ -1,0 +1,21 @@
+service: trip-booking-functions
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-central-1
+  stage: dev  
+
+functions:
+  book-car:
+    handler: car/book/index.handler
+  cancel-car:
+    handler: car/cancel/index.handler
+  book-hotel:
+    handler: hotel/book/index.handler
+  cancel-hotel:
+    handler: hotel/cancel/index.handler
+  book-flight:
+    handler: flight/book/index.handler
+  cancel-flight:
+    handler: flight/cancel/index.handler

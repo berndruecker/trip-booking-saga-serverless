@@ -1,0 +1,71 @@
+service: trip-booking-step-functions
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-central-1
+  stage: dev  
+
+# Plugins
+plugins:
+  - serverless-step-functions
+  - serverless-pseudo-parameters
+stepFunctions:
+  stateMachines:
+    sequenceStepFunction:
+      events:
+        - http:
+            path: trip
+            method: PUT
+      name: trip
+      definition:
+        StartAt: TaskBookHotel
+        States:
+          TaskBookHotel:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-book-hotel
+            Catch: 
+              -
+                ErrorEquals: 
+                  - States.ALL
+                ResultPath: $.BookHotelError
+                Next: TaskCancelHotel
+            ResultPath: $.BookHotelResult
+            Next: TaskBookCar
+          TaskBookCar:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-book-car
+            Catch: 
+              -
+                ErrorEquals: 
+                  - States.ALL
+                ResultPath: $.BookCarError
+                Next: TaskCancelCar
+            Next: TaskBookFlight
+          TaskBookFlight:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-book-flight
+            Catch: 
+              -
+                ErrorEquals: 
+                  - States.ALL
+                ResultPath: $.BookFlightError
+                Next: TaskCancelFlight
+            End: true
+          TaskCancelFlight:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-cancel-flight
+            ResultPath: $.FlightCancelResult
+            Next: TaskCancelCar
+          TaskCancelCar:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-cancel-car
+            ResultPath: $.CarCancelResult
+            Next: TaskCancelHotel
+          TaskCancelHotel:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:trip-booking-functions-${opt:stage}-cancel-hotel
+            ResultPath: $.HotelCancelResult
+            Next: Fail
+          Fail:
+            Type: Fail

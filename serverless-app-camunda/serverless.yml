@@ -1,0 +1,22 @@
+service: trip-booking-camunda
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+  region: eu-central-1
+  stage: dev  
+
+# Plugins
+#plugins:
+  #- serverless-plugin-camunda
+  #- serverless-pseudo-parameters
+
+# Flows
+custom:
+  camunda:
+    workflows: 
+       - trip.bpmn
+    # endpoint: http://localhost:8080
+    endpoint: http://ec2-18-185-92-131.eu-central-1.compute.amazonaws.com:8080 # How to get rid of this?!
+    # add some code from https://github.com/svdgraaf/serverless-pseudo-parameters/blob/develop/lib/index.js 
+    # to allow replacing some vars

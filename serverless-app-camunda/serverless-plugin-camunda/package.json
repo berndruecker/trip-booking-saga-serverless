@@ -1,0 +1,33 @@
+{
+  "name": "serverless-plugin-camunda",
+  "version": "0.0.1",
+  "engines": {
+    "node": ">=4.0"
+  },
+  "description": "Serverless Plugin Camunda - A plugin to deploy Camunda workflows via Serverless Framework.",
+  "author": "berndruecker",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/berndruecker/trip-booking-saga-serverless"
+  },
+  "keywords": [
+    "worfklow",
+    "BPMN",
+    "Saga",
+    "Camunda"
+  ],
+  "main": "index.js",
+  "bin": {},
+  "scripts": {
+    "test": "mocha tests/all"
+  },
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "mocha": "^2.2.5"
+  },
+  "dependencies": {
+    "bluebird": "^3.0.6",
+    "axios": "^0.18.0"
+  }
+}
