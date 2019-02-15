@@ -51,11 +51,11 @@ Todo: Use a serverless plugin
 
 For now: Deploy the `trip.bpmn` via the [Camunda Modeler](https://camunda.com/download/modeler/) and start using [REST API](https://docs.camunda.org/manual/7.10/reference/rest/process-definition/post-start-process-instance/) or the Camunda Webapp:
 
-````
+```
 curl -H "Content-Type: application/json" -X POST -d  @request-camunda.json http://localhost:8080/rest/process-definition/key/trip/start
 ```
 
-````
+```
 curl -H "Content-Type: application/json" -X POST -d '{"variables":{"bookCarFailure":{"value":"false","type":"boolean"}}}' http://localhost:8080/rest/process-definition/key/trip/start
 ```
 
