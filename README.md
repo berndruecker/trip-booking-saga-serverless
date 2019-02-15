@@ -10,7 +10,7 @@ Using the classical trip booking Saga example.
 - Using AWS Step Functions
 - Using Camunda as workflow engine
 
-= Get started
+# Get started
 
 * Install Serverless framework and configure the connection to AWS
 
@@ -22,7 +22,7 @@ serverless deploy
 cd ..
 ```
 
-* Play with Step Functions
+# Play with Step Functions
 
 Deploy:
 
@@ -43,7 +43,7 @@ curl -H "Content-Type: application/json" -X PUT -d  @request-step-functions.json
 ```
 
 
-* Play with Camunda
+# Play with Camunda
 
 Pre-condition: Make sure to deploy a Camunda container, see (camunda/)
 
@@ -58,5 +58,3 @@ curl -H "Content-Type: application/json" -X POST -d  @request-camunda.json http:
 ```
 curl -H "Content-Type: application/json" -X POST -d '{"variables":{"bookCarFailure":{"value":"false","type":"boolean"}}}' http://localhost:8080/rest/process-definition/key/trip/start
 ```
-
-
