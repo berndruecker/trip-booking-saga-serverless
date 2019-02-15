@@ -11,7 +11,7 @@
       <bpmn:incoming>SequenceFlow_1l7vtks</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0btkfwp" sourceRef="ServiceTask_BookFlight" targetRef="ServiceTask_SendBookedEvent" />
-    <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:delegateExpression="#{lambdaInvocationDelegate}" camunda:asyncBefore="true">
+    <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
       <bpmn:extensionElements>
         <camunda:properties>
           <camunda:property name="functionName" value="trip-booking-functions-dev-book-flight" />
@@ -33,10 +33,10 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
       <bpmn:extensionElements>
-        <camunda:failedJobRetryTimeCycle>R3/PT1S</camunda:failedJobRetryTimeCycle>        
+        <camunda:failedJobRetryTimeCycle>R3/PT1S</camunda:failedJobRetryTimeCycle>
         <camunda:properties>
           <camunda:property name="invocationError" value="true" />
-          <camunda:property name="functionName" value="trip-booking-functions-dev-book-car" />
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-hotel" />
         </camunda:properties>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_08xxv7x</bpmn:incoming>
