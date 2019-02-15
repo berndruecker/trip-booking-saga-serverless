@@ -1,4 +1,6 @@
-= Showcase to coordinate serverless functions
+# Showcase to coordinate serverless functions
+
+Accompanying slides from my talk at Serverless Hamburg can be found here: https://www.slideshare.net/BerndRuecker/serverless-days-2019-lost-in-transaction
 
 ***Under construction!***
 
