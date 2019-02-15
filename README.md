@@ -41,7 +41,7 @@ curl -H "Content-Type: application/json" -X PUT -d  @request-step-functions.json
 
 # Play with Camunda
 
-Pre-condition: Make sure to deploy a Camunda container, see (camunda/)
+Pre-condition: Make sure to deploy a Camunda container, see  [readme in camunda folder](camunda/) 
 
 Todo: Use a serverless plugin
 
