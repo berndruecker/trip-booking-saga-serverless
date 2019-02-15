@@ -34,11 +34,11 @@ cd ..
 
 Goto AWS Console and start instances or use REST:
 
-````
+```
 curl -H "Content-Type: application/json" -X PUT -d '{"bookCarFailure":true}' https://xndjvrnxih.execute-api.eu-central-1.amazonaws.com/dev/trip
 ```
 
-````
+```
 curl -H "Content-Type: application/json" -X PUT -d  @request-step-functions.json https://xndjvrnxih.execute-api.eu-central-1.amazonaws.com/dev/trip
 ```
 
