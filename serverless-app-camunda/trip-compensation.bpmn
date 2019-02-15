@@ -33,6 +33,7 @@
     </bpmn:serviceTask>
     <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
       <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/PT1S</camunda:failedJobRetryTimeCycle>        
         <camunda:properties>
           <camunda:property name="invocationError" value="true" />
           <camunda:property name="functionName" value="trip-booking-functions-dev-book-car" />
