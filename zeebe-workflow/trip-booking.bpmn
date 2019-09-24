@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.1.0">
+  <bpmn:process id="trip-booking" isExecutable="true">
+    <bpmn:startEvent id="StartEvent_1">
+      <bpmn:outgoing>SequenceFlow_04dmf07</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="x-api-key" value="${aws-api-key}" />
+          <zeebe:header key="url" value="${aws-lambda-base-url}/hotel/book" />
+          <zeebe:header key="method" value="put" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_04dmf07</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1yzwcdb</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_04dmf07" sourceRef="StartEvent_1" targetRef="ServiceTask_BookHotel" />
+    <bpmn:endEvent id="EndEvent_1x8sklw">
+      <bpmn:incoming>SequenceFlow_12l4m60</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_1yzwcdb" sourceRef="ServiceTask_BookHotel" targetRef="ServiceTask_BookCar" />
+    <bpmn:serviceTask id="ServiceTask_BookCar" name="Book car">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="x-api-key" value="${aws-api-key}" />
+          <zeebe:header key="url" value="${aws-lambda-base-url}/car/book" />
+          <zeebe:header key="method" value="put" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1yzwcdb</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_081x4da</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_081x4da" sourceRef="ServiceTask_BookCar" targetRef="ServiceTask_BookFlight" />
+    <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight">
+      <bpmn:extensionElements>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
+        <zeebe:taskHeaders>
+          <zeebe:header key="x-api-key" value="${aws-api-key}" />
+          <zeebe:header key="url" value="${aws-lambda-base-url}/flight/book" />
+          <zeebe:header key="method" value="put" />
+        </zeebe:taskHeaders>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_081x4da</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_12l4m60</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_12l4m60" sourceRef="ServiceTask_BookFlight" targetRef="EndEvent_1x8sklw" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="trip-booking">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0mapjdi_di" bpmnElement="ServiceTask_BookHotel">
+        <dc:Bounds x="270" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_04dmf07_di" bpmnElement="SequenceFlow_04dmf07">
+        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="270" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="239.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1x8sklw_di" bpmnElement="EndEvent_1x8sklw">
+        <dc:Bounds x="802" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="775" y="142" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1yzwcdb_di" bpmnElement="SequenceFlow_1yzwcdb">
+        <di:waypoint xsi:type="dc:Point" x="370" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="451" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="365.5" y="99" width="90" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1p6isqe_di" bpmnElement="ServiceTask_BookCar">
+        <dc:Bounds x="451" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_081x4da_di" bpmnElement="SequenceFlow_081x4da">
+        <di:waypoint xsi:type="dc:Point" x="551" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="621" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="586" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0mwrdck_di" bpmnElement="ServiceTask_BookFlight">
+        <dc:Bounds x="621" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_12l4m60_di" bpmnElement="SequenceFlow_12l4m60">
+        <di:waypoint xsi:type="dc:Point" x="721" y="120" />
+        <di:waypoint xsi:type="dc:Point" x="802" y="120" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="761.5" y="99" width="0" height="12" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

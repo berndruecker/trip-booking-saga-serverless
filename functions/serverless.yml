@@ -2,20 +2,52 @@ service: trip-booking-functions
 
 provider:
   name: aws
-  runtime: nodejs6.10
+  runtime: nodejs10.x
   region: eu-central-1
   stage: dev  
+  apiKeys:
+    - workflow-engine
 
 functions:
   book-car:
     handler: car/book/index.handler
+    events:
+      - http:
+          path: car/book
+          method: PUT
+          private: true
   cancel-car:
     handler: car/cancel/index.handler
+    events:
+      - http:
+          path: car/book
+          method: DELETE
+          private: true
   book-hotel:
     handler: hotel/book/index.handler
+    events:
+      - http:
+          path: hotel/book
+          method: PUT
+          private: true
   cancel-hotel:
     handler: hotel/cancel/index.handler
+    events:
+      - http:
+          path: hotel/book
+          method: DELETE
+          private: true
   book-flight:
     handler: flight/book/index.handler
+    events:
+      - http:
+          path: flight/book
+          method: PUT
+          private: true
   cancel-flight:
     handler: flight/cancel/index.handler
+    events:
+      - http:
+          path: flight/book
+          method: DELETE
+          private: true
