@@ -22,7 +22,7 @@ I use this for certain talks:
 Use the above credentials in that command:
 
 ```
-zbctl --audience 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.ultrawombat.com --address 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.ultrawombat.com:443 --clientId KEFgrt9Azh07wTXbTX89sIBPgwgvzGaH --clientSecret vRfUxMcwuqYg4om6HYweR8iJdZyBl89BS9a5Bi4W7nOV5ezcvfOz4N4uO2vKAyWx --authzUrl https://login.cloud.ultrawombat.com/oauth/token deploy trip-booking.bpmn
+zbctl --audience 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io --address 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io:443 --clientId KEFgrt9Azh07wTXbTX89sIBPgwgvzGaH --clientSecret vRfUxMcwuqYg4om6HYweR8iJdZyBl89BS9a5Bi4W7nOV5ezcvfOz4N4uO2vKAyWx --authzUrl https://login.cloud.camunda.io/oauth/token deploy trip-booking.bpmn
 ```
 
 ## Deploy Serverless Stuff
@@ -55,5 +55,3 @@ serverless deploy
 ```
 curl -H "Content-Type: application/json" -X PUT -d  @request-zeebe.json https://8rbjxgtf82.execute-api.eu-central-1.amazonaws.com/dev/trip/book
 ```
-
-
