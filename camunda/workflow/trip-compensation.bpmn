@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0a4mzdo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.3">
+  <bpmn:process id="trip" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="StartEvent_TripRequested" name="Trip requested">
+      <bpmn:outgoing>SequenceFlow_08xxv7x</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_08xxv7x" sourceRef="StartEvent_TripRequested" targetRef="ServiceTask_BookHotel" />
+    <bpmn:sequenceFlow id="SequenceFlow_105dznv" sourceRef="ServiceTask_BookHotel" targetRef="ServiceTask_BookCar" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ba7141" sourceRef="ServiceTask_BookCar" targetRef="ServiceTask_BookFlight" />
+    <bpmn:endEvent id="EndEvent_1dpplp2" name="Trip booked">
+      <bpmn:incoming>SequenceFlow_1l7vtks</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0btkfwp" sourceRef="ServiceTask_BookFlight" targetRef="ServiceTask_SendBookedEvent" />
+    <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-flight" />
+          <camunda:property name="invocationError" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1ba7141</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0btkfwp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_BookCar" name="Book car" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-car" />
+          <camunda:property name="invocationError" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_105dznv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ba7141</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:failedJobRetryTimeCycle>R3/PT1S</camunda:failedJobRetryTimeCycle>
+        <camunda:properties>
+          <camunda:property name="invocationError" value="true" />
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-hotel" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_08xxv7x</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_105dznv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:boundaryEvent id="BoundaryEvent_CompensateHotel" attachedToRef="ServiceTask_BookHotel">
+      <bpmn:compensateEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_CompensateCar" attachedToRef="ServiceTask_BookCar">
+      <bpmn:compensateEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:boundaryEvent id="BoundaryEvent_CompensateFlight" attachedToRef="ServiceTask_BookFlight">
+      <bpmn:compensateEventDefinition />
+    </bpmn:boundaryEvent>
+    <bpmn:serviceTask id="ServiceTask_CancelFlight" name="Cancel flight" camunda:modelerTemplate="LambdaInvocationDelegate" isForCompensation="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-cancel-flight" />
+          <camunda:property name="invocationError" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_CancelCar" name="Cancel car" camunda:modelerTemplate="LambdaInvocationDelegate" isForCompensation="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-cancel-car" />
+          <camunda:property name="invocationError" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_CancelHotel" name="Cancel hotel" camunda:modelerTemplate="LambdaInvocationDelegate" isForCompensation="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-cancel-hotel" />
+          <camunda:property name="invocationError" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+    </bpmn:serviceTask>
+    <bpmn:subProcess id="SubProcess_LambdaInvocationError" triggeredByEvent="true">
+      <bpmn:startEvent id="ErrorEvent">
+        <bpmn:outgoing>SequenceFlow_032slto</bpmn:outgoing>
+        <bpmn:errorEventDefinition errorRef="Error_10xyexh" camunda:errorCodeVariable="errorCode" camunda:errorMessageVariable="errorMessage" />
+      </bpmn:startEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_032slto" sourceRef="ErrorEvent" targetRef="ThrowCompensation" />
+      <bpmn:intermediateThrowEvent id="ThrowCompensation" camunda:asyncBefore="true">
+        <bpmn:incoming>SequenceFlow_032slto</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0yssi5u</bpmn:outgoing>
+        <bpmn:compensateEventDefinition />
+      </bpmn:intermediateThrowEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0yssi5u" sourceRef="ThrowCompensation" targetRef="ServiceTask_SendCanceledEvent" />
+      <bpmn:endEvent id="EndEvent_TripCanceled" name="Trip canceled">
+        <bpmn:incoming>SequenceFlow_0faup6r</bpmn:incoming>
+      </bpmn:endEvent>
+      <bpmn:sequenceFlow id="SequenceFlow_0faup6r" sourceRef="ServiceTask_SendCanceledEvent" targetRef="EndEvent_TripCanceled" />
+      <bpmn:serviceTask id="ServiceTask_SendCanceledEvent" name="Send TripCanceled event" camunda:asyncBefore="true" camunda:expression="#{true}">
+        <bpmn:incoming>SequenceFlow_0yssi5u</bpmn:incoming>
+        <bpmn:outgoing>SequenceFlow_0faup6r</bpmn:outgoing>
+      </bpmn:serviceTask>
+    </bpmn:subProcess>
+    <bpmn:sequenceFlow id="SequenceFlow_1l7vtks" sourceRef="ServiceTask_SendBookedEvent" targetRef="EndEvent_1dpplp2" />
+    <bpmn:serviceTask id="ServiceTask_SendBookedEvent" name="Send TripBooked event" camunda:asyncBefore="true" camunda:expression="#{true}">
+      <bpmn:incoming>SequenceFlow_0btkfwp</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1l7vtks</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:association id="Association_09kakll" associationDirection="One" sourceRef="BoundaryEvent_CompensateHotel" targetRef="ServiceTask_CancelHotel" />
+    <bpmn:association id="Association_0jbhjkg" associationDirection="One" sourceRef="BoundaryEvent_CompensateCar" targetRef="ServiceTask_CancelCar" />
+    <bpmn:association id="Association_0yef9pa" associationDirection="One" sourceRef="BoundaryEvent_CompensateFlight" targetRef="ServiceTask_CancelFlight" />
+  </bpmn:process>
+  <bpmn:error id="Error_10xyexh" name="LambdaInvocationError" errorCode="io.berndruecker.serverless.aws.lambda.LambdaInvocationError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="trip">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_TripRequested">
+        <dc:Bounds x="173" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="156" y="145" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08xxv7x_di" bpmnElement="SequenceFlow_08xxv7x">
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="265" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_105dznv_di" bpmnElement="SequenceFlow_105dznv">
+        <di:waypoint x="365" y="120" />
+        <di:waypoint x="479" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ba7141_di" bpmnElement="SequenceFlow_1ba7141">
+        <di:waypoint x="579" y="120" />
+        <di:waypoint x="698" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1dpplp2_di" bpmnElement="EndEvent_1dpplp2">
+        <dc:Bounds x="1127" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1117" y="145" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0btkfwp_di" bpmnElement="SequenceFlow_0btkfwp">
+        <di:waypoint x="798" y="120" />
+        <di:waypoint x="964" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0uaehxv_di" bpmnElement="ServiceTask_BookFlight">
+        <dc:Bounds x="698" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0trkiuo_di" bpmnElement="ServiceTask_BookCar">
+        <dc:Bounds x="479" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0hzn4mr_di" bpmnElement="ServiceTask_BookHotel">
+        <dc:Bounds x="265" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BoundaryEvent_1dmldu9_di" bpmnElement="BoundaryEvent_CompensateHotel">
+        <dc:Bounds x="315" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_09kakll_di" bpmnElement="Association_09kakll">
+        <di:waypoint x="333" y="178" />
+        <di:waypoint x="333" y="240" />
+        <di:waypoint x="401" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1c5gh65_di" bpmnElement="BoundaryEvent_CompensateCar">
+        <dc:Bounds x="530" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0jbhjkg_di" bpmnElement="Association_0jbhjkg">
+        <di:waypoint x="548" y="178" />
+        <di:waypoint x="548" y="240" />
+        <di:waypoint x="616" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="BoundaryEvent_1sofcyq_di" bpmnElement="BoundaryEvent_CompensateFlight">
+        <dc:Bounds x="748" y="142" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Association_0yef9pa_di" bpmnElement="Association_0yef9pa">
+        <di:waypoint x="766" y="178" />
+        <di:waypoint x="766" y="240" />
+        <di:waypoint x="834" y="240" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0k3n0i2_di" bpmnElement="ServiceTask_CancelFlight">
+        <dc:Bounds x="834" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0lgvabr_di" bpmnElement="ServiceTask_CancelCar">
+        <dc:Bounds x="616" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_04r5m56_di" bpmnElement="ServiceTask_CancelHotel">
+        <dc:Bounds x="401" y="200" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="SubProcess_0imdymc_di" bpmnElement="SubProcess_LambdaInvocationError" isExpanded="true">
+        <dc:Bounds x="779" y="318" width="411" height="135" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="StartEvent_1e8pex3_di" bpmnElement="ErrorEvent">
+        <dc:Bounds x="806" y="361" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_032slto_di" bpmnElement="SequenceFlow_032slto">
+        <di:waypoint x="842" y="379" />
+        <di:waypoint x="892" y="379" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="IntermediateThrowEvent_1b9xbff_di" bpmnElement="ThrowCompensation">
+        <dc:Bounds x="892" y="361" width="36" height="36" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0yssi5u_di" bpmnElement="SequenceFlow_0yssi5u">
+        <di:waypoint x="928" y="379" />
+        <di:waypoint x="978" y="379" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_0vp7ue6_di" bpmnElement="EndEvent_TripCanceled">
+        <dc:Bounds x="1128" y="361" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1114" y="404" width="65" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0faup6r_di" bpmnElement="SequenceFlow_0faup6r">
+        <di:waypoint x="1078" y="379" />
+        <di:waypoint x="1128" y="379" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1oedmfj_di" bpmnElement="ServiceTask_SendCanceledEvent">
+        <dc:Bounds x="978" y="339" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1l7vtks_di" bpmnElement="SequenceFlow_1l7vtks">
+        <di:waypoint x="1064" y="120" />
+        <di:waypoint x="1127" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1nqxn3r_di" bpmnElement="ServiceTask_SendBookedEvent">
+        <dc:Bounds x="964" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>
