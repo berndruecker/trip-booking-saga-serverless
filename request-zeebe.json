@@ -1,8 +1,5 @@
 {
-    "bookHotelFailure": "false",
-    "bookCarFailure": "true",
-    "bookFlightFailure": "false",
-    "cancelHotelFailure": "false",
-    "cancelCarFailure": "false",
-    "cancelFlightFailure": "false"
+    "bookHotelFailure" : "false",
+    "bookCarFailure"   : "false",
+    "bookFlightFailure": "true"
 }
