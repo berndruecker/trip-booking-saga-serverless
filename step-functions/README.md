@@ -2,7 +2,7 @@
 
 This demo implements the classical trip booking Saga with Step Functions.
 
-[Overview](../overview.png)
+![Overview](../overview.png)
 
 I used this for certain talks:
 
@@ -15,7 +15,13 @@ I use this demo for my talks. There is no gurantee on the stability of the code 
 # Get started
 
 * Install Serverless framework and configure according to your cloud provider
-* Deploy [functions](../functions/) as described there
+* Deploy [functions as described](../functions/):
+
+```
+cd ../functions
+serverless deploy 
+```
+
 * Deploy Step Functions
 
 ```

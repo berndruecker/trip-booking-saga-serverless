@@ -2,7 +2,7 @@
 
 This demo implements the classical trip booking Saga example on Camunda BPM run as container.
 
-[Overview](../overview.png)
+![Overview](../overview.png)
 
 I used this for certain talks:
 
@@ -15,11 +15,16 @@ I use this demo for my talks. There is no gurantee on the stability of the code 
 # Get started
 
 * Install Serverless framework and configure according to your cloud provider
-* Deploy [functions](../functions/) as described there
+* Deploy [functions as described](../functions/):
+
+```
+cd ../functions
+serverless deploy 
+```
 
 * Deploy a Camunda container, see  [readme in container folder](container/) 
 * Deploy the `trip.bpmn` via the [Camunda Modeler](https://camunda.com/download/modeler/) using the right endpoint for your container
-** Or use the Serverless plugin in [workflow/](workflow/):
+  * Or use the Serverless plugin in [workflow/](workflow/):
 
 ```
 cd serverless-plugin-camunda

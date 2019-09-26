@@ -2,7 +2,7 @@
 
 This demo implements the classical trip booking Saga with a managed Zeebe cluster in Camunda Cloud.
 
-[Overview](../overview.png)
+![Overview](../overview.png)
 
 I use this for certain talks:
 
@@ -27,7 +27,7 @@ zbctl --audience 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.ultrawombat.com --ad
 
 ## Deploy Serverless Stuff
 
-* Deploy [functions as described ](../functions/):
+* Deploy [functions as described](../functions/):
 
 ```
 cd ../functions
@@ -36,8 +36,8 @@ serverless deploy
 
 * Capture `aws-api-key` as well as `aws-lambda-base-url` from the console
 * Add them as worker variable via the Camunda Cloud console, e.g:
-  - aws-api-key:  1l10cvdFgJb8nwhjI9Q95IIB2L5zWL379QTelH6c
-  - aws-lambda-base-url: https://1g5n3ithxi.execute-api.eu-central-1.amazonaws.com/dev
+  * aws-api-key:  1l10cvdFgJb8nwhjI9Q95IIB2L5zWL379QTelH6c
+  * aws-lambda-base-url: https://1g5n3ithxi.execute-api.eu-central-1.amazonaws.com/dev
 
 * Adjust Zeebe client credentials in [trip-zeebe/index.js](trip-zeebe/index.js)
 * Deploy coordinator function (trip booking, it will call Zeebe), making sure you include all necessary node libraries to be deployed alongside (and note that in this case AWS lambda runs on linux x64, so the grpc native lib must be adjusted accordingly):
@@ -45,7 +45,7 @@ serverless deploy
 ```
 cd libs/node-js
 npm install --save zeebe-node
-?? npm rebuild grpc --target=10.16.3 --target_arch=x64 --target_platform=linux --target_libc=glibc
+npm rebuild grpc --target=10.16.3 --target_arch=x64 --target_platform=linux --target_libc=glibc
 cd ../..
 serverless deploy 
 ```
