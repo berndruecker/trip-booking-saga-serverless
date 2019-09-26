@@ -1,0 +1,49 @@
+ {
+    "name": "AWS Lambda",
+    "id": "LambdaInvocationDelegate",
+    "appliesTo": [
+      "bpmn:ServiceTask"
+    ],
+    "properties": [
+      {  
+        "label": "Function Name",
+        "type": "String",
+        "editable": true,
+        "value": "",
+        "binding": {
+          "type": "camunda:property",
+          "name": "functionName"
+        }
+      },
+      {
+        "label": "Raise BPMN Error on function failure",
+        "type": "Boolean",
+        "editable": true,
+        "value": "true",
+        "binding": {
+          "type": "camunda:property",
+          "name": "invocationError"
+        }
+      },   
+      {
+        "label": "Implementation",
+        "type": "String",
+        "editable": false,
+        "value": "#{lambdaInvocationDelegate}",
+        "binding": {
+          "type": "property",
+          "name": "camunda:delegateExpression"
+        }
+      },
+      {
+        "label": "Async",
+        "type": "Boolean",
+        "editable": false,
+        "value": "true",
+        "binding": {
+          "type": "property",
+          "name": "camunda:asyncBefore"
+        }
+      }
+    ]
+}

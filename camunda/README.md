@@ -1,37 +1,36 @@
-# Run Camunda as Docker Container
+# Showcase to coordinate serverless functions using Camunda BPM
 
-You can simply run this pre-build container:  ``berndruecker/serverless-enabled-camunda```
+This demo implements the classical trip booking Saga example on Camunda BPM run as container.
 
-For example on Amazon ECS or any other environment that can run containers.
+[Overview](../overview.png)
 
-It contains
+I used this for certain talks:
 
-* Camunda
-* Using a local H2 database (not meant for production)
+* Serverless Hamburg 2019: https://www.slideshare.net/BerndRuecker/serverless-days-2019-lost-in-transaction
 
-In order to access Lambda functions from this container you need toet environment variables:
+***Constantly under construction!***
 
-```
-AWS_ACCESSKEY
-AWS_SECRET
-AWS_REGION
-```
+I use this demo for my talks. There is no gurantee on the stability of the code here - and it might be in a broken state any time.
 
-Make sure Port 8080 is reachable.
+# Get started
 
-# Change the code and build your own container
+* Install Serverless framework and configure according to your cloud provider
+* Deploy [functions](../functions/) as described there
 
-Do whatever you want to do :-)
-
-Build via Maven
+* Deploy a Camunda container, see  [readme in container folder](container/) 
+* Deploy the `trip.bpmn` via the [Camunda Modeler](https://camunda.com/download/modeler/) using the right endpoint for your container
+** Or use the Serverless plugin in [workflow/](workflow/):
 
 ```
-mvn install
+cd serverless-plugin-camunda
+npm link
+cd ../
+npm link serverless-plugin-camunda
+serverless deploy
 ```
 
-Build Docker Image (of course you need to use your own tag :-))
+* Start new instances using [REST API](https://docs.camunda.org/manual/7.10/reference/rest/process-definition/post-start-process-instance/):
 
 ```
-docker build . -t berndruecker/serverless-enabled-camunda
-docker push berndruecker/serverless-enabled-camunda
+curl -H "Content-Type: application/json" -X POST -d  @request-camunda.json http://CAMUNDA_URL:8080/rest/process-definition/key/trip/start
 ```

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" id="Definitions_0a4mzdo" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="2.2.3">
+  <bpmn:process id="trip" isExecutable="true" camunda:versionTag="1.0.0">
+    <bpmn:startEvent id="StartEvent_TripRequested" name="Trip requested">
+      <bpmn:outgoing>SequenceFlow_08xxv7x</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_08xxv7x" sourceRef="StartEvent_TripRequested" targetRef="ServiceTask_BookHotel" />
+    <bpmn:sequenceFlow id="SequenceFlow_105dznv" sourceRef="ServiceTask_BookHotel" targetRef="ServiceTask_BookCar" />
+    <bpmn:sequenceFlow id="SequenceFlow_1ba7141" sourceRef="ServiceTask_BookCar" targetRef="ServiceTask_BookFlight" />
+    <bpmn:endEvent id="EndEvent_1dpplp2" name="Trip booked">
+      <bpmn:incoming>SequenceFlow_1l7vtks</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="SequenceFlow_0btkfwp" sourceRef="ServiceTask_BookFlight" targetRef="ServiceTask_SendBookedEvent" />
+    <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-flight" />
+          <camunda:property name="invocationError" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_1ba7141</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_0btkfwp</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_BookCar" name="Book car" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-car" />
+          <camunda:property name="invocationError" value="true" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_105dznv</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1ba7141</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel" camunda:modelerTemplate="LambdaInvocationDelegate" camunda:asyncBefore="true" camunda:delegateExpression="#{lambdaInvocationDelegate}">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="invocationError" value="true" />
+          <camunda:property name="functionName" value="trip-booking-functions-dev-book-car" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>SequenceFlow_08xxv7x</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_105dznv</bpmn:outgoing>
+    </bpmn:serviceTask>
+    <bpmn:sequenceFlow id="SequenceFlow_1l7vtks" sourceRef="ServiceTask_SendBookedEvent" targetRef="EndEvent_1dpplp2" />
+    <bpmn:serviceTask id="ServiceTask_SendBookedEvent" name="Send TripBooked event" camunda:asyncBefore="true" camunda:expression="#{true}">
+      <bpmn:incoming>SequenceFlow_0btkfwp</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1l7vtks</bpmn:outgoing>
+    </bpmn:serviceTask>
+  </bpmn:process>
+  <bpmn:error id="Error_10xyexh" name="LambdaInvocationError" errorCode="io.berndruecker.serverless.aws.lambda.LambdaInvocationError" />
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="trip">
+      <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_TripRequested">
+        <dc:Bounds x="188" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="171" y="145" width="70" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_08xxv7x_di" bpmnElement="SequenceFlow_08xxv7x">
+        <di:waypoint x="224" y="120" />
+        <di:waypoint x="265" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_105dznv_di" bpmnElement="SequenceFlow_105dznv">
+        <di:waypoint x="365" y="120" />
+        <di:waypoint x="407" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1ba7141_di" bpmnElement="SequenceFlow_1ba7141">
+        <di:waypoint x="507" y="120" />
+        <di:waypoint x="548" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="EndEvent_1dpplp2_di" bpmnElement="EndEvent_1dpplp2">
+        <dc:Bounds x="827" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="817" y="145" width="57" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_0btkfwp_di" bpmnElement="SequenceFlow_0btkfwp">
+        <di:waypoint x="648" y="120" />
+        <di:waypoint x="680" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_0uaehxv_di" bpmnElement="ServiceTask_BookFlight">
+        <dc:Bounds x="548" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0trkiuo_di" bpmnElement="ServiceTask_BookCar">
+        <dc:Bounds x="407" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0hzn4mr_di" bpmnElement="ServiceTask_BookHotel">
+        <dc:Bounds x="265" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_1l7vtks_di" bpmnElement="SequenceFlow_1l7vtks">
+        <di:waypoint x="780" y="120" />
+        <di:waypoint x="827" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="ServiceTask_1nqxn3r_di" bpmnElement="ServiceTask_SendBookedEvent">
+        <dc:Bounds x="680" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

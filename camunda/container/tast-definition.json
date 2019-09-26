@@ -1,0 +1,21 @@
+{
+    "family": "camunda",
+    "containerDefinitions": [
+      {
+        "name": "camunda",
+        "image": "berndruecker/serverless-enabled-camunda:latest",
+        "cpu": 128,
+        "memoryReservation": 128,
+        "portMappings": [
+          {
+            "containerPort": 8080,
+            "protocol": "tcp"
+          }
+        ],
+        "command": [
+          "ruby", "hi.rb"
+        ],
+        "essential": true
+      }
+    ]
+  }
