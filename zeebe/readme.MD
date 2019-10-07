@@ -26,7 +26,7 @@ This video gives a quick walk through the example:
 Use the above credentials in that command:
 
 ```
-zbctl --audience 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io --address 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io:443 --clientId KEFgrt9Azh07wTXbTX89sIBPgwgvzGaH --clientSecret vRfUxMcwuqYg4om6HYweR8iJdZyBl89BS9a5Bi4W7nOV5ezcvfOz4N4uO2vKAyWx --authzUrl https://login.cloud.camunda.io/oauth/token deploy trip-booking.bpmn
+zbctl --address 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io:443 --clientId KEFgrt9Azh07wTXbTX89sIBPgwgvzGaH --clientSecret vRfUxMcwuqYg4om6HYweR8iJdZyBl89BS9a5Bi4W7nOV5ezcvfOz4N4uO2vKAyWx deploy trip-booking.bpmn
 ```
 
 ## Deploy Serverless Stuff
