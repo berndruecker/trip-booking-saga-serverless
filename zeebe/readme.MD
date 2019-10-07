@@ -11,6 +11,10 @@ I use this for certain talks:
 
 # How-to use
 
+This video gives a quick walk through the example:
+
+<a href="http://www.youtube.com/watch?feature=player_embedded&v=M0tmV9fCq2U" target="_blank"><img src="http://img.youtube.com/vi/M0tmV9fCq2U/0.jpg" alt="Walkthrough" width="240" height="180" border="10" /></a>
+
 ## Create Zeebe cluster in Camunda Cloud
 
 - Create Camunda Cloud account: https://camunda.com/products/cloud/
