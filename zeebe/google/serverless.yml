@@ -1,0 +1,17 @@
+service: trip-booking-coordinator
+
+provider:
+  name: google
+  runtime: nodejs8
+  project: camunda-consulting-de
+  credentials: C:/Users/ruecker/.gcloud/keyfile.json
+  stage: dev 
+
+plugins:
+  - serverless-google-cloudfunctions
+
+functions:
+  book-trip:
+    handler: bookTrip
+    events:
+      - http: yesOfCourse

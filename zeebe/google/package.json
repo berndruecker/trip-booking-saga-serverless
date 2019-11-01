@@ -1,0 +1,11 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "serverless-google-cloudfunctions": "^2.3.3",
+    "zeebe-node": "^0.20.6"
+  },
+  "scripts": {
+    "postinstall": "npm rebuild grpc --target=10.16.3 --target_arch=x64 --target_platform=linux --target_libc=glibc"
+  }
+}

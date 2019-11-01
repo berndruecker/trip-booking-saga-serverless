@@ -1,0 +1,5 @@
+{
+    "bookHotelFailure" : "false",
+    "bookCarFailure"   : "false",
+    "bookFlightFailure": "true"
+}
