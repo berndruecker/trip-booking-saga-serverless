@@ -2,7 +2,7 @@
 
 const ZB = require('zeebe-node')
 
-module.exports.bookTrip = (req, res) => {
+module.exports.bookTrip = async (req, res) => {
   const body = req.body;
 
   const zbc = new ZB.ZBClient({
@@ -15,7 +15,8 @@ module.exports.bookTrip = (req, res) => {
     }
   })
 
-  zbc.createWorkflowInstance('trip-booking', body)
+  const workflowInstance = await zbc.createWorkflowInstance('trip-booking', body);
+  console.log(workflowInstance);
 
   const responseBody = JSON.stringify({
       message: 'Trip booking started'

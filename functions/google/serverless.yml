@@ -1,0 +1,39 @@
+service: trip-booking-functions
+
+provider:
+  name: google
+  runtime: nodejs8
+  project: camunda-consulting-de
+  credentials: C:/Users/ruecker/.gcloud/keyfile.json
+  stage: dev  
+  apiKeys:
+    - workflow-engine
+
+plugins:
+  - serverless-google-cloudfunctions
+
+functions:
+  book-car:
+    handler: bookCar
+    events:
+      - http: valueIgnoredButMustBeThere
+  cancel-car:
+    handler: cancelCar
+    events:
+      - http: valueIgnoredButMustBeThere
+  book-hotel:
+    handler: bookHotel
+    events:
+      - http: valueIgnoredButMustBeThere
+  cancel-hotel:
+    handler: cancelHotel
+    events:
+      - http: valueIgnoredButMustBeThere
+  book-flight:
+    handler: bookFlight
+    events:
+      - http: valueIgnoredButMustBeThere
+  cancel-flight:
+    handler: cancelFlight
+    events:
+      - http: valueIgnoredButMustBeThere

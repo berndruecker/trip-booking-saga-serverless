@@ -7,10 +7,10 @@ module.exports.handler = (input, context, callback) => {
 
   const zbc = new ZB.ZBClient({
     camundaCloud: {
-      clientId: "KEFgrt9Azh07wTXbTX89sIBPgwgvzGaH",
+      clientId: "3mRSYYwed2lq21gO55emxpCnW7Rr9Zn1",
       clientSecret:
-      "vRfUxMcwuqYg4om6HYweR8iJdZyBl89BS9a5Bi4W7nOV5ezcvfOz4N4uO2vKAyWx",
-      clusterId: "2daa1cac-f7cf-45e7-98f8-cccb474bf329",
+      "F7dHPVZa-X9CRDBZPB9SHV2WTRHuHXWjr2-MsJn-QhN5eQlcn2jUEipHNmXQWsgP",
+      clusterId: "b7ba92c4-5a6d-496a-af3f-027a447483e9",
       cacheOnDisk: false      
     }
   })

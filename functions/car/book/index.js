@@ -1,9 +1,10 @@
 'use strict';
 
-module.exports.handler = (input, context, callback) => {
+module.exports.handler = (req, res) => {
 
-  console.log(input);
-  const body = JSON.parse(input.body);
+  console.log(req);
+  console.log(req.body);
+  const body = req.body;
   
   let responseBody;
   
@@ -20,8 +21,5 @@ module.exports.handler = (input, context, callback) => {
       carMessage: 'Car booking successful'
     });
   }
-  callback(null, {
-    statusCode: 200,
-    body: responseBody
-  });
+  res.status(200).send( responseBody );
 };

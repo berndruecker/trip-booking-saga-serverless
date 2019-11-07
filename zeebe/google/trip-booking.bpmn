@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.1.0">
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:zeebe="http://camunda.org/schema/zeebe/1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_1" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Zeebe Modeler" exporterVersion="0.7.0">
   <bpmn:process id="trip-booking" isExecutable="true">
     <bpmn:startEvent id="StartEvent_1" name="Trip requested">
       <bpmn:outgoing>SequenceFlow_04dmf07</bpmn:outgoing>
@@ -8,8 +8,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/hotel/book" />
+          <zeebe:header key="url" value="${google-function-base-url}/bookHotel" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -25,8 +24,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/car/book" />
+          <zeebe:header key="url" value="${google-function-base-url}/bookCar" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -38,8 +36,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/flight/book" />
+          <zeebe:header key="url" value="${google-function-base-url}/bookFlight" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -73,8 +70,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/car/book" />
+          <zeebe:header key="url" value="${google-function-base-url}/cancelCar" />
           <zeebe:header key="method" value="delete" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -97,8 +93,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/flight/book" />
+          <zeebe:header key="url" value="${google-function-base-url}/cancelFlight" />
           <zeebe:header key="method" value="delete" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -114,8 +109,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="${aws-api-key}" />
-          <zeebe:header key="url" value="${aws-lambda-base-url}/hotel/book" />
+          <zeebe:header key="url" value="${google-function-base-url}cancelHotel" />
           <zeebe:header key="method" value="delete" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -137,8 +131,8 @@
         <dc:Bounds x="270" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_04dmf07_di" bpmnElement="SequenceFlow_04dmf07">
-        <di:waypoint xsi:type="dc:Point" x="209" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="270" y="120" />
+        <di:waypoint x="209" y="120" />
+        <di:waypoint x="270" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="239.5" y="99" width="0" height="12" />
         </bpmndi:BPMNLabel>
@@ -150,8 +144,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1yzwcdb_di" bpmnElement="SequenceFlow_1yzwcdb">
-        <di:waypoint xsi:type="dc:Point" x="370" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="400" y="120" />
+        <di:waypoint x="370" y="120" />
+        <di:waypoint x="400" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="340" y="99" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -160,8 +154,8 @@
         <dc:Bounds x="488" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_081x4da_di" bpmnElement="SequenceFlow_081x4da">
-        <di:waypoint xsi:type="dc:Point" x="588" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="608" y="120" />
+        <di:waypoint x="588" y="120" />
+        <di:waypoint x="608" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="553" y="99" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -170,8 +164,8 @@
         <dc:Bounds x="697" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_12l4m60_di" bpmnElement="SequenceFlow_12l4m60">
-        <di:waypoint xsi:type="dc:Point" x="797" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="822" y="120" />
+        <di:waypoint x="797" y="120" />
+        <di:waypoint x="822" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="764.5" y="99" width="90" height="12" />
         </bpmndi:BPMNLabel>
@@ -183,8 +177,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_04ynlib_di" bpmnElement="SequenceFlow_04ynlib">
-        <di:waypoint xsi:type="dc:Point" x="450" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="488" y="120" />
+        <di:waypoint x="450" y="120" />
+        <di:waypoint x="488" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="460" y="99" width="19" height="12" />
         </bpmndi:BPMNLabel>
@@ -196,8 +190,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0xxqsoc_di" bpmnElement="SequenceFlow_0xxqsoc">
-        <di:waypoint xsi:type="dc:Point" x="425" y="145" />
-        <di:waypoint xsi:type="dc:Point" x="425" y="210" />
+        <di:waypoint x="425" y="145" />
+        <di:waypoint x="425" y="210" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="434" y="172.0909090909091" width="13" height="12" />
         </bpmndi:BPMNLabel>
@@ -209,8 +203,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1kx9qqc_di" bpmnElement="SequenceFlow_1kx9qqc">
-        <di:waypoint xsi:type="dc:Point" x="658" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="697" y="120" />
+        <di:waypoint x="658" y="120" />
+        <di:waypoint x="697" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="668" y="99" width="19" height="12" />
         </bpmndi:BPMNLabel>
@@ -219,8 +213,8 @@
         <dc:Bounds x="583" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0nxqach_di" bpmnElement="SequenceFlow_0nxqach">
-        <di:waypoint xsi:type="dc:Point" x="633" y="145" />
-        <di:waypoint xsi:type="dc:Point" x="633" y="210" />
+        <di:waypoint x="633" y="145" />
+        <di:waypoint x="633" y="210" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="642" y="172" width="13" height="12" />
         </bpmndi:BPMNLabel>
@@ -232,8 +226,8 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1hmy433_di" bpmnElement="SequenceFlow_1hmy433">
-        <di:waypoint xsi:type="dc:Point" x="872" y="120" />
-        <di:waypoint xsi:type="dc:Point" x="934" y="120" />
+        <di:waypoint x="872" y="120" />
+        <di:waypoint x="934" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="894" y="99" width="19" height="12" />
         </bpmndi:BPMNLabel>
@@ -242,22 +236,22 @@
         <dc:Bounds x="797" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_1srwa59_di" bpmnElement="SequenceFlow_1srwa59">
-        <di:waypoint xsi:type="dc:Point" x="847" y="145" />
-        <di:waypoint xsi:type="dc:Point" x="847" y="210" />
+        <di:waypoint x="847" y="145" />
+        <di:waypoint x="847" y="210" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="856" y="172" width="13" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1m9t2oi_di" bpmnElement="SequenceFlow_1m9t2oi">
-        <di:waypoint xsi:type="dc:Point" x="797" y="250" />
-        <di:waypoint xsi:type="dc:Point" x="683" y="250" />
+        <di:waypoint x="797" y="250" />
+        <di:waypoint x="683" y="250" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="740" y="229" width="0" height="12" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_10ont2x_di" bpmnElement="SequenceFlow_10ont2x">
-        <di:waypoint xsi:type="dc:Point" x="583" y="250" />
-        <di:waypoint xsi:type="dc:Point" x="475" y="250" />
+        <di:waypoint x="583" y="250" />
+        <di:waypoint x="475" y="250" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="529" y="229" width="0" height="12" />
         </bpmndi:BPMNLabel>
@@ -266,8 +260,8 @@
         <dc:Bounds x="375" y="210" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="SequenceFlow_0e3ugyg_di" bpmnElement="SequenceFlow_0e3ugyg">
-        <di:waypoint xsi:type="dc:Point" x="425" y="290" />
-        <di:waypoint xsi:type="dc:Point" x="425" y="320" />
+        <di:waypoint x="425" y="290" />
+        <di:waypoint x="425" y="320" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="440" y="299" width="0" height="12" />
         </bpmndi:BPMNLabel>
