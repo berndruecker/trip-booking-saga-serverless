@@ -109,7 +109,7 @@
       <bpmn:extensionElements>
         <zeebe:taskDefinition type="CAMUNDA-HTTP" retries="" />
         <zeebe:taskHeaders>
-          <zeebe:header key="url" value="${google-function-base-url}cancelHotel" />
+          <zeebe:header key="url" value="${google-function-base-url}/cancelHotel" />
           <zeebe:header key="method" value="delete" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
