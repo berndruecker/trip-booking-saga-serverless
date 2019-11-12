@@ -2,7 +2,7 @@
 
 This demo implements the classical trip booking Saga with a managed Zeebe cluster in Camunda Cloud and GCP Functions.
 
-![Overview](../overview.png)
+![Overview](../../overview.png)
 
 I used this or this talks:
 

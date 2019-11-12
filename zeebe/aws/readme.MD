@@ -2,7 +2,7 @@
 
 This demo implements the classical trip booking Saga with a managed Zeebe cluster in Camunda Cloud.
 
-![Overview](../overview.png)
+![Overview](../../overview.png)
 
 I use this for certain talks:
 

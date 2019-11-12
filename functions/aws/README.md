@@ -2,7 +2,7 @@
 
 This folder contains all necessary functions that need to be coordinated for a trip booking according to the classical example.
 
-![Overview](../overview.png)
+![Overview](../../overview.png)
 
 # How to use
 
