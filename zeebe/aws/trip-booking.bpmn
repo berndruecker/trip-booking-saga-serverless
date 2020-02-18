@@ -12,6 +12,10 @@
           <zeebe:header key="url" value="${aws-lambda-base-url}/hotel/book" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="bookHotelFailure" target="body.bookHotelFailure" />
+          <zeebe:output source="body.success" target="success" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04dmf07</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1yzwcdb</bpmn:outgoing>
@@ -29,6 +33,10 @@
           <zeebe:header key="url" value="${aws-lambda-base-url}/car/book" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="bookCarFailure" target="body.bookCarFailure" />
+          <zeebe:output source="body.success" target="success" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04ynlib</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_081x4da</bpmn:outgoing>
@@ -42,6 +50,10 @@
           <zeebe:header key="url" value="${aws-lambda-base-url}/flight/book" />
           <zeebe:header key="method" value="put" />
         </zeebe:taskHeaders>
+        <zeebe:ioMapping>
+          <zeebe:input source="bookFlightFailure" target="body.bookFlightFailure" />
+          <zeebe:output source="body.success" target="success" />
+        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1kx9qqc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12l4m60</bpmn:outgoing>
