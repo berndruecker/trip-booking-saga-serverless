@@ -6,7 +6,7 @@
     </bpmn:startEvent>
     <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
           <zeebe:header key="url" value="{{aws-lambda-base-url}}/hotel/book" />
@@ -27,7 +27,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_1yzwcdb" sourceRef="ServiceTask_BookHotel" targetRef="ExclusiveGateway_18dnlxl" />
     <bpmn:serviceTask id="ServiceTask_BookCar" name="Book car">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
           <zeebe:header key="url" value="{{aws-lambda-base-url}}/car/book" />
@@ -44,7 +44,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_081x4da" sourceRef="ServiceTask_BookCar" targetRef="ExclusiveGateway_07pbd0k" />
     <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
           <zeebe:header key="url" value="{{aws-lambda-base-url}}/flight/book" />
@@ -83,10 +83,10 @@
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_CancelCar" name="Cancel car">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url 0}/car/book" />
+          <zeebe:header key="url" value="{{aws-lambda-base-url}}/car/book" />
           <zeebe:header key="method" value="delete" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
@@ -107,7 +107,7 @@
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_CancelFlight" name="Cancel flight">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
           <zeebe:header key="url" value="{{aws-lambda-base-url}}/flight/book" />
@@ -124,7 +124,7 @@
     <bpmn:sequenceFlow id="SequenceFlow_10ont2x" sourceRef="ServiceTask_CancelCar" targetRef="ServiceTask_CancelHotel" />
     <bpmn:serviceTask id="ServiceTask_CancelHotel" name="Cancel hotel">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP"/>
+        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
         <zeebe:taskHeaders>
           <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
           <zeebe:header key="url" value="{{aws-lambda-base-url}}/hotel/book" />

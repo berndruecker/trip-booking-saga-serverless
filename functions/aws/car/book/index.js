@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports.handler = (req, res) => {
+module.exports.handler = (req, res, callback) => {
 
   console.log(req);
   console.log(req.body);
