@@ -21,5 +21,9 @@ module.exports.handler = (req, res) => {
       carMessage: 'Car booking successful'
     });
   }
-  res.status(200).send( responseBody );
+  callback(null, {
+    statusCode: 200,
+    body: responseBody
+  });
+  
 };
