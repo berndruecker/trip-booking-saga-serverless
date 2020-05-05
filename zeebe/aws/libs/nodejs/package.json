@@ -2,9 +2,9 @@
   "requires": true,
   "lockfileVersion": 1,
   "dependencies": {
-    "zeebe-node": "^0.20.6"
+    "zeebe-node": "^0.23.0-alpha.4"
   },
   "scripts": {
     "postinstall": "npm rebuild grpc --target=10.16.3 --target_arch=x64 --target_platform=linux --target_libc=glibc"
-  },  
+  }
 }

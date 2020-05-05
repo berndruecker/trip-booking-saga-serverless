@@ -15,39 +15,39 @@ functions:
       - http:
           path: car/book
           method: PUT
-          private: true
+          private: false
   cancel-car:
     handler: car/cancel/index.handler
     events:
       - http:
           path: car/book
           method: DELETE
-          private: true
+          private: false
   book-hotel:
     handler: hotel/book/index.handler
     events:
       - http:
           path: hotel/book
           method: PUT
-          private: true
+          private: false
   cancel-hotel:
     handler: hotel/cancel/index.handler
     events:
       - http:
           path: hotel/book
           method: DELETE
-          private: true
+          private: false
   book-flight:
     handler: flight/book/index.handler
     events:
       - http:
           path: flight/book
           method: PUT
-          private: true
+          private: false
   cancel-flight:
     handler: flight/cancel/index.handler
     events:
       - http:
           path: flight/book
           method: DELETE
-          private: true
+          private: false

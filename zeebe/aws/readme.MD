@@ -19,7 +19,7 @@ This video gives a quick walk through the example:
 
 - Create Camunda Cloud account: https://camunda.com/products/cloud/
 - Create Zeebe Cluster
-- Retrieve client credentials (clusterId, clientId, clientSecret). We need that for `zbctl` and the [trip-zeebe/index.js](trip-zeebe/index.js) function
+- Retrieve client credentials (clusterId, clientId, clientSecret). We need that for deployment (via the Zeebe Modeler or `zbctl`) and the [serverless.yml](serverless.yml) that will set the right environment variables to be used in the [trip-zeebe/index.js](trip-zeebe/index.js) function.
 
 ## Deploy Workflow Definition to Zeebe
 
@@ -42,14 +42,14 @@ serverless deploy
 * Add them as worker variable via the Camunda Cloud console, e.g:
   * aws-api-key:  1l10cvdFgJb8nwhjI9Q95IIB2L5zWL379QTelH6c
   * aws-lambda-base-url: https://1g5n3ithxi.execute-api.eu-central-1.amazonaws.com/dev
+  * WORKAROUND: Currently the api-key is not working because of https://github.com/zeebe-io/zeebe-http-worker/issues/64 - so the demo works without it for now
 
-* Adjust Zeebe client credentials in [trip-zeebe/index.js](trip-zeebe/index.js)
-* Deploy coordinator function (trip booking, it will call Zeebe), making sure you include all necessary node libraries to be deployed alongside (and note that in this case AWS lambda runs on linux x64, so the grpc native lib must be adjusted accordingly):
+* Adjust Zeebe client credentials in [serverless.yml](serverless.yml)
+* Deploy coordinator function (trip booking, it will call Zeebe), making sure you include all necessary node libraries to be deployed alongside (and note that in this case AWS lambda runs on linux x64, so the grpc native lib must be adjusted accordingly, as included in the package.json):
 
 ```
 cd libs/node-js
 npm install --save zeebe-node
-npm rebuild grpc --target=10.16.3 --target_arch=x64 --target_platform=linux --target_libc=glibc
 cd ../..
 serverless deploy 
 ```
