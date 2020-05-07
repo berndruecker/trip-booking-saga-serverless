@@ -6,16 +6,12 @@
     </bpmn:startEvent>
     <bpmn:serviceTask id="ServiceTask_BookHotel" name="Book hotel">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/hotel/book" />
-          <zeebe:header key="method" value="put" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-book-hotel" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
+          <zeebe:header key="resultName" value="bookHotelResult" />
         </zeebe:taskHeaders>
-        <zeebe:ioMapping>
-          <zeebe:input source="=bookHotelFailure" target="body.bookHotelFailure" />
-          <zeebe:output source="=body.success" target="success" />
-        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04dmf07</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1yzwcdb</bpmn:outgoing>
@@ -27,16 +23,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_1yzwcdb" sourceRef="ServiceTask_BookHotel" targetRef="ExclusiveGateway_18dnlxl" />
     <bpmn:serviceTask id="ServiceTask_BookCar" name="Book car">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/car/book" />
-          <zeebe:header key="method" value="put" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-book-car" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
+          <zeebe:header key="resultName" value="bookCarResult" />
         </zeebe:taskHeaders>
-        <zeebe:ioMapping>
-          <zeebe:input source="=bookCarFailure" target="body.bookCarFailure" />
-          <zeebe:output source="=body.success" target="success" />
-        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_04ynlib</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_081x4da</bpmn:outgoing>
@@ -44,16 +36,12 @@
     <bpmn:sequenceFlow id="SequenceFlow_081x4da" sourceRef="ServiceTask_BookCar" targetRef="ExclusiveGateway_07pbd0k" />
     <bpmn:serviceTask id="ServiceTask_BookFlight" name="Book flight">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/flight/book" />
-          <zeebe:header key="method" value="put" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-book-flight" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
+          <zeebe:header key="resultName" value="bookFlightResult" />
         </zeebe:taskHeaders>
-        <zeebe:ioMapping>
-          <zeebe:input source="=bookFlightFailure" target="body.bookFlightFailure" />
-          <zeebe:output source="=body.success" target="success" />
-        </zeebe:ioMapping>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1kx9qqc</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_12l4m60</bpmn:outgoing>
@@ -65,13 +53,13 @@
       <bpmn:outgoing>SequenceFlow_0xxqsoc</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_04ynlib" name="yes" sourceRef="ExclusiveGateway_18dnlxl" targetRef="ServiceTask_BookCar">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=success</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= bookHotelResult.success</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_0nrvuxz" name="Trip booking failed">
       <bpmn:incoming>SequenceFlow_0e3ugyg</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0xxqsoc" name="no" sourceRef="ExclusiveGateway_18dnlxl" targetRef="ServiceTask_CancelHotel">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= success = false</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= not(bookHotelResult.success)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_07pbd0k" name="Successful?">
       <bpmn:incoming>SequenceFlow_081x4da</bpmn:incoming>
@@ -79,15 +67,14 @@
       <bpmn:outgoing>SequenceFlow_0nxqach</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1kx9qqc" name="yes" sourceRef="ExclusiveGateway_07pbd0k" targetRef="ServiceTask_BookFlight">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=success</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= bookCarResult.success</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_CancelCar" name="Cancel car">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/car/book" />
-          <zeebe:header key="method" value="delete" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-cancel-car" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0nxqach</bpmn:incoming>
@@ -95,7 +82,7 @@
       <bpmn:outgoing>SequenceFlow_10ont2x</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_0nxqach" name="no" sourceRef="ExclusiveGateway_07pbd0k" targetRef="ServiceTask_CancelCar">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=success=false</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= not(bookCarResult.success)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:exclusiveGateway id="ExclusiveGateway_0l0avlj" name="Success?">
       <bpmn:incoming>SequenceFlow_12l4m60</bpmn:incoming>
@@ -103,32 +90,30 @@
       <bpmn:outgoing>SequenceFlow_1srwa59</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_1hmy433" name="yes" sourceRef="ExclusiveGateway_0l0avlj" targetRef="EndEvent_1x8sklw">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=success</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= bookFlightResult.success</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="ServiceTask_CancelFlight" name="Cancel flight">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/flight/book" />
-          <zeebe:header key="method" value="delete" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-cancel-flight" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1srwa59</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1m9t2oi</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1srwa59" name="no" sourceRef="ExclusiveGateway_0l0avlj" targetRef="ServiceTask_CancelFlight">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">=success=false</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">= not(bookFlightResult.success)</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_1m9t2oi" sourceRef="ServiceTask_CancelFlight" targetRef="ServiceTask_CancelCar" />
     <bpmn:sequenceFlow id="SequenceFlow_10ont2x" sourceRef="ServiceTask_CancelCar" targetRef="ServiceTask_CancelHotel" />
     <bpmn:serviceTask id="ServiceTask_CancelHotel" name="Cancel hotel">
       <bpmn:extensionElements>
-        <zeebe:taskDefinition type="CAMUNDA-HTTP" />
+        <zeebe:taskDefinition type="lambda" />
         <zeebe:taskHeaders>
-          <zeebe:header key="x-api-key" value="{{aws-api-key}}" />
-          <zeebe:header key="url" value="{{aws-lambda-base-url}}/hotel/book" />
-          <zeebe:header key="method" value="delete" />
+          <zeebe:header key="functionName" value="trip-booking-functions-dev-cancel-hotel" />
+          <zeebe:header key="body" value="{&#34;body&#34;:  &#34;{{{variablesJsonEscaped}}}&#34;  }" />
         </zeebe:taskHeaders>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0xxqsoc</bpmn:incoming>
@@ -217,7 +202,7 @@
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_1yzwcdb_di" bpmnElement="SequenceFlow_1yzwcdb">
-        <di:waypoint x="370" y="120" />
+        <di:waypoint x="360" y="120" />
         <di:waypoint x="400" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="340" y="99" width="90" height="12" />
@@ -225,7 +210,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="SequenceFlow_04dmf07_di" bpmnElement="SequenceFlow_04dmf07">
         <di:waypoint x="209" y="120" />
-        <di:waypoint x="270" y="120" />
+        <di:waypoint x="260" y="120" />
         <bpmndi:BPMNLabel>
           <dc:Bounds x="239.5" y="99" width="0" height="12" />
         </bpmndi:BPMNLabel>
@@ -235,9 +220,6 @@
         <bpmndi:BPMNLabel>
           <dc:Bounds x="155" y="138" width="72" height="12" />
         </bpmndi:BPMNLabel>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="ServiceTask_0mapjdi_di" bpmnElement="ServiceTask_BookHotel">
-        <dc:Bounds x="270" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="EndEvent_1x8sklw_di" bpmnElement="EndEvent_1x8sklw">
         <dc:Bounds x="934" y="102" width="36" height="36" />
@@ -283,6 +265,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="ServiceTask_126uamo_di" bpmnElement="ServiceTask_CancelHotel">
         <dc:Bounds x="375" y="210" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ServiceTask_0mapjdi_di" bpmnElement="ServiceTask_BookHotel">
+        <dc:Bounds x="260" y="80" width="100" height="80" />
       </bpmndi:BPMNShape>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
