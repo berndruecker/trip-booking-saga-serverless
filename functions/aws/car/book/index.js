@@ -4,7 +4,7 @@ module.exports.handler = (req, res, callback) => {
 
   console.log(req);
   console.log(req.body);
-  const body = req.body;
+  const body = JSON.parse(req.body);
   
   let responseBody;
   
