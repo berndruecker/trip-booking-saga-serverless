@@ -19,6 +19,16 @@ This is the BPMN workflow used:
 
 ![bpmn](trip-booking.png)
 
+## Deploy functions that will be orchestrated
+
+* Deploy [lambdas](../../functions/aws) to book or cancel a car, hotel and flight
+
+```
+cd ../../functions/aws
+serverless deploy 
+```
+
+
 ## Create Zeebe cluster in Camunda Cloud
 
 - Create Camunda Cloud account: https://camunda.com/products/cloud/
@@ -37,21 +47,32 @@ zbctl --address 2daa1cac-f7cf-45e7-98f8-cccb474bf329.zeebe.camunda.io:443 --clie
 
 ## Run Lambda Worker
 
-Make sure you operate the Lambda Worker as connection between Zeebe and AWS: https://github.com/zeebe-io/zeebe-lambda-worker
+Make sure you operate the Lambda Worker as connection between Zeebe and AWS. Details can be found here: https://github.com/zeebe-io/zeebe-lambda-worker
 
-You might operate that via AWS Fargate.
-
-## Deploy Serverless Stuff
-
-* Deploy [functions as described](../functions/):
-
+For example just run it using Docker:
 ```
-cd ../functions
-serverless deploy 
+docker run --env-file camunda.env --env-file aws.env -p 8080:8080 camunda/zeebe-lambda-worker:SNAPSHOT
 ```
+with camunda.env:
+```
+ZEEBE_CLIENT_CLOUD_CLUSTERID=x
+ZEEBE_CLIENT_CLOUD_CLIENTID=y
+ZEEBE_CLIENT_CLOUD_CLIENTSECRET=z
+```
+and aws.env:
+```
+AWS_REGION=eu-central-1
+AWS_ACCESSKEY=x
+AWS_SECRET=y
+```
+
+You might operate the container via AWS Fargate.
+
+
+## Deploy trip booking function
 
 * Adjust Zeebe client credentials in [serverless.yml](serverless.yml)
-* Deploy coordinator function (trip booking, it will call Zeebe), making sure you include all necessary node libraries to be deployed alongside:
+* Deploy coordinator function `trip booking`, this will call Zeebe to create a new workflow instance. Make sure you include all necessary node libraries to be deployed alongside:
 
 ```
 cd libs/node-js
@@ -60,8 +81,12 @@ cd ../..
 serverless deploy 
 ```
 
-* Capture URL for this function and call it via REST:
+* Capture URL for this function from the log output
+
+## Call trip booking via REST:
 
 ```
 curl -H "Content-Type: application/json" -X PUT -d  @request-zeebe.json https://8rbjxgtf82.execute-api.eu-central-1.amazonaws.com/dev/trip/book
 ```
+
+Now you can inspect your workflow instance via Operate.

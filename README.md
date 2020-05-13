@@ -21,7 +21,7 @@ I use this demo for my talks. There is no gurantee on the stability of the code 
 * Install Serverless framework and configure according to your AWS account
 * Deploy [lambdas](functions/aws)
 * Decide on the implementation approach you want to play around with:
-  * Use [Zeebe](zeebe/aws) as managed service from [Camunda Cloud](https://camunda.com/products/cloud/) and deploy your a function triggering the workflow
+  * Use BPMN on [Camunda Cloud](zeebe/aws) as managed service from Camunda and deploy a function triggering the workflow
   * Use [AWS Step Functions](step-functions/) as managed service from AWS
 
 ## GCP (Google Functions)
